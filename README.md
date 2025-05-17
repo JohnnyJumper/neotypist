@@ -1,4 +1,7 @@
 # Neotypist
+<a href="https://dotfyle.com/plugins/JohnnyJumper/neotypist.nvim">
+	<img src="https://dotfyle.com/plugins/JohnnyJumper/neotypist.nvim/shield?style=flat" />
+</a>
 
 A simple Neovim plugin that tracks your typing speed in real-time.
 
