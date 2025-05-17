@@ -25,7 +25,7 @@ Neotypist displays your Words Per Minute (WPM) while you type in Neovim and prov
 
 ```lua
 {
-  "JohnnyJumper/neotypist",
+  "JohnnyJumper/neotypist.nvim",
   opts = {
     -- your configuration options here
   }
