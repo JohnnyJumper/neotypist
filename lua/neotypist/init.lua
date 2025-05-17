@@ -1,9 +1,31 @@
+---@class Neotypist
 local M = {}
 
 local ns = vim.api.nvim_create_namespace("Neotypist")
+
+---@class NeotypistStats
+---@field start_words number Number of words when timer started.
+---@field time number Start time in milliseconds.
+---@field timer? uv.uv_timer_t Timer object from vim.uv.
+
+---@type NeotypistStats
 local stats = { start_words = 0, time = 0, timer = nil }
 local last_notify_time = 0
 local uv = vim.uv
+
+---@class NeotypistOptions
+---@field notify_interval number Time in milliseconds between notifications (default: 60000).
+---@field high number High WPM threshold for notification (default: 80).
+---@field low number Low WPM threshold for notification (default: 20).
+---@field high_message string Message to show when WPM is above high threshold (default: "⚡️ You're a cheetah!").
+---@field low_message string Message to show when WPM is below low threshold (default: "🐢 Slowpoke!").
+---@field show_virt_text boolean Whether to show virtual text with WPM (default: true).
+---@field notify boolean Whether to show notifications (default: true).
+---@field update_time number Time in milliseconds between WPM updates (default: 300).
+---@field virt_text fun(wpm: number): string Function that returns virtual text to display (default: "🚀 WPM: {wpm}").
+---@field virt_text_pos string Position of virtual text (default: "right_align").
+
+---@type NeotypistOptions
 local options = {
 	notify_interval = 60 * 1000, -- one minute
 	high = 80,
@@ -19,6 +41,7 @@ local options = {
 	virt_text_pos = "right_align",
 }
 
+---@param opts? NeotypistOptions
 local function overrideOptions(opts)
 	opts = opts or {}
 	options.notify_interval = opts.notify_interval or options.notify_interval
@@ -33,6 +56,7 @@ local function overrideOptions(opts)
 	options.virt_text_pos = opts.virt_text_pos or options.virt_text_pos
 end
 
+---@param wpm number Words per minute
 local function maybeNotify(wpm)
 	local now = uv.now()
 	if last_notify_time == 0 then
@@ -52,6 +76,7 @@ local function maybeNotify(wpm)
 	end
 end
 
+---@param wpm number Words per minute
 local function render(wpm)
 	vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
 	vim.api.nvim_buf_set_extmark(0, ns, 0, 0, {
@@ -99,6 +124,7 @@ local function stop_timer()
 	vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
 end
 
+---@param opts? NeotypistOptions
 function M.setup(opts)
 	overrideOptions(opts)
 	local group = vim.api.nvim_create_augroup("Neotypist", { clear = true })
@@ -118,4 +144,5 @@ function M.setup(opts)
 	})
 end
 
+---@return Neotypist
 return M
