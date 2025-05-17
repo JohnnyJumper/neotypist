@@ -1,8 +1,9 @@
 local M = {}
-local ns, stats = vim.api.nvim_create_namespace("Neotypist"), { start_words = 0, time = 0, timer = nil }
+
+local ns = vim.api.nvim_create_namespace("Neotypist")
+local stats = { start_words = 0, time = 0, timer = nil }
 local last_notify_time = 0
 local uv = vim.uv
-
 local options = {
 	notify_interval = 60 * 1000, -- one minute
 	high = 80,
@@ -116,7 +117,5 @@ function M.setup(opts)
 		callback = stop_timer,
 	})
 end
-
-M.setup()
 
 return M
