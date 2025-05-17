@@ -2,6 +2,9 @@
 
 A simple Neovim plugin that tracks your typing speed in real-time.
 
+![neotypistDemo](https://github.com/user-attachments/assets/cf79616e-e837-4b7f-a78f-2b106686f711)
+
+
 ## Overview
 
 Neotypist displays your Words Per Minute (WPM) while you type in Neovim and provides encouraging notifications based on your typing speed. This is a learning project created to understand how Neovim plugins work.
